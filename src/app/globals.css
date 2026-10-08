@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FleetTrack design tokens (R G B). Same palette as the Android app's FT object. */
+:root,
+.dark .paper {
+  color-scheme: light;
+  --surface: 255 255 255;
+  --brand-50: 239 246 255;   /* #EFF6FF light blue */
+  --brand-100: 219 231 255;
+  --brand-500: 61 123 255;
+  --brand-600: 11 92 255;    /* #0B5CFF primary */
+  --brand-700: 8 71 204;
+  --brand-900: 7 26 82;      /* #071A52 navy */
+  --accent-50: 237 233 254;  /* #EDE9FE light purple */
+  --accent-600: 124 58 237;  /* #7C3AED purple accent */
+  --slate-50: 246 248 252;   /* page background */
+  --slate-100: 241 245 249;
+  --slate-200: 229 234 242;  /* borders */
+  --slate-300: 203 213 225;
+  --slate-400: 148 163 184;
+  --slate-500: 100 116 139;  /* secondary text */
+  --slate-600: 82 96 122;
+  --slate-700: 51 65 85;
+  --slate-900: 20 33 61;     /* #14213D text */
+  --red-50: 254 242 242;
+  --red-600: 220 38 38;
+  --red-700: 185 28 28;
+  --red-800: 153 27 27;
+  --green-50: 240 253 244;
+  --green-600: 22 163 74;
+  --green-700: 21 128 61;
+  --amber-50: 254 243 199;
+  --amber-600: 217 119 6;
+  --amber-700: 146 64 14;
+  --blue-50: 239 246 255;
+  --blue-900: 30 58 138;
+  --violet-50: 245 243 255;
+  --violet-800: 91 33 182;
+  --hero: linear-gradient(135deg, #071a52 0%, #123a8a 55%, #3b2a9e 100%);
+  --bar: linear-gradient(90deg, #071a52, #123a8a);
+}
+
+.dark {
+  color-scheme: dark;
+  --surface: 19 28 49;       /* #131C31 cards */
+  --brand-50: 22 38 74;
+  --brand-100: 30 52 100;
+  --brand-500: 110 160 255;
+  --brand-600: 77 139 255;   /* #4D8BFF: brighter primary on dark */
+  --brand-700: 110 160 255;
+  --brand-900: 5 11 31;
+  --accent-50: 42 33 80;
+  --accent-600: 159 122 234;
+  --slate-50: 10 16 32;      /* #0A1020 page background */
+  --slate-100: 26 37 64;
+  --slate-200: 37 50 77;
+  --slate-300: 58 74 106;
+  --slate-400: 100 116 139;
+  --slate-500: 154 168 192;
+  --slate-600: 176 188 208;
+  --slate-700: 203 213 228;
+  --slate-900: 230 236 248;
+  --red-50: 59 21 24;
+  --red-600: 248 113 113;
+  --red-700: 252 165 165;
+  --red-800: 254 202 202;
+  --green-50: 15 46 34;
+  --green-600: 52 211 153;
+  --green-700: 110 231 183;
+  --amber-50: 58 42 10;
+  --amber-600: 251 191 36;
+  --amber-700: 252 211 77;
+  --blue-50: 22 38 74;
+  --blue-900: 191 211 255;
+  --violet-50: 42 33 80;
+  --violet-800: 76 29 149;
+  --hero: linear-gradient(135deg, #050b1f 0%, #0d1e52 55%, #2a1f72 100%);
+  --bar: linear-gradient(90deg, #050b1f, #0d1e52);
+}
+
+body { @apply bg-slate-50 text-slate-900 antialiased; }
+
+@layer components {
+  .card { @apply rounded-2xl border border-slate-200 bg-surface shadow-[0_1px_2px_rgb(7_26_82/0.04)]; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed; }
+  .btn-primary { @apply btn bg-brand-600 text-white hover:bg-brand-700 disabled:bg-slate-200 disabled:text-slate-400; }
+  .btn-accent { @apply btn bg-accent-600 text-white hover:opacity-90 disabled:bg-slate-200 disabled:text-slate-400; }
+  .btn-secondary { @apply btn border border-slate-200 bg-surface text-slate-700 hover:bg-slate-50 disabled:opacity-50; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:opacity-90 disabled:opacity-50; }
+  .btn-ghost { @apply btn text-slate-600 hover:bg-slate-100 disabled:opacity-50; }
+  .input { @apply block w-full rounded-xl border border-slate-200 bg-surface px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100; }
+  .label { @apply mb-1 block text-xs font-medium text-slate-600; }
+  .th { @apply px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-slate-500; }
+  .td { @apply px-3 py-2 text-sm; }
+  .hero { background: var(--hero); }
+  .topbar { background: var(--bar); }
+  .icon-badge { @apply flex shrink-0 items-center justify-center rounded-xl; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+  @page { size: A4; margin: 10mm; }
+}
