@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 // FleetTrack's privacy policy (incl. account deletion) lives on the company site.
-const POLICY = 'https://royalgenegroup.co.ke/privacy/fleettrack';
+const POLICY = 'https://www.royalgenegroup.co.ke/privacy/fleettrack';
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ['postgres'],
