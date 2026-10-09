@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { useSession } from '@/components/session-context';
 import { Field, Modal, PageHeader } from '@/components/ui';
 import { api, errMsg } from '@/lib/client';
+import type { AppRelease } from '@/lib/app-release';
 import type { CategoryKind, CategoryTag, ExpenseCategory } from '@/lib/types';
 
 export default function SettingsPage() {
@@ -14,6 +15,7 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <PageHeader title="Settings" />
       {user.role === 'owner' && <OrgSettings />}
+      <MobileApp />
       <Categories />
       <Password />
     </div>
@@ -119,6 +121,44 @@ function LogoPicker({ value, onChange }: { value: string; onChange: (v: string) 
           <p className="text-xs text-slate-500">Square images work best. Without a logo, the FleetTrack logo is shown.</p>
         </div>
       </div>
+    </div>
+  );
+}
+
+/** Latest Android release (self-hosted updater) with a download link to share with drivers. */
+function MobileApp() {
+  const [rel, setRel] = useState<AppRelease | null | undefined>(undefined);
+  useEffect(() => {
+    api<{ release: AppRelease | null }>('/app/latest')
+      .then((r) => setRel(r.release))
+      .catch(() => setRel(null));
+  }, []);
+  return (
+    <div className="card p-5">
+      <div className="flex flex-wrap items-center gap-4">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo.png" alt="" className="h-12 w-12" />
+        <div className="min-w-0 flex-1">
+          <h2 className="font-semibold">FleetTrack mobile app</h2>
+          <p className="text-sm text-slate-500">
+            {rel === undefined
+              ? 'Checking for the latest version…'
+              : rel
+                ? `Latest version ${rel.versionName} · ${(rel.size / 1_048_576).toFixed(1)} MB${rel.minVersionCode > 0 ? ' · required update' : ''}`
+                : 'No app release has been published yet.'}
+          </p>
+        </div>
+        {rel && (
+          <a href="/api/v1/app/download?redirect=1" className="btn-primary">
+            Download APK
+          </a>
+        )}
+      </div>
+      {rel?.notes && <p className="mt-3 whitespace-pre-line rounded-xl bg-slate-50 p-3 text-sm text-slate-600">{rel.notes}</p>}
+      <p className="mt-3 text-xs text-slate-500">
+        Installed apps update themselves: they show an “Update available” card and install with one tap. Share this APK with new drivers;
+        on first install Android asks to allow installs from this source.
+      </p>
     </div>
   );
 }
