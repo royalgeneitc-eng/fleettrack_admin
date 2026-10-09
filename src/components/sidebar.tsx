@@ -9,17 +9,6 @@ import { api } from '@/lib/client';
 import { useSession } from './session-context';
 import { ThemeToggle } from './theme';
 
-/** Company logo uploaded in Settings, or the FleetTrack logo when the workspace has none. */
-function WorkspaceLogo({ url }: { url?: string | null }) {
-  return url ? (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={url} alt="" className="h-10 w-10 shrink-0 rounded-xl bg-white object-contain p-1 ring-1 ring-slate-200" />
-  ) : (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/logo.png" alt="" className="h-10 w-10 shrink-0" />
-  );
-}
-
 /**
  * App frame: a full-width top bar, the nav sidebar starting below it, and the
  * page area. Pages pin their own header under the top bar via <PageHeader>
@@ -62,15 +51,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const nav = (
     <nav className="flex h-full flex-col overflow-y-auto py-4">
-      {user.organization && (
-        <div className="mx-3 mb-4 flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-2.5">
-          <WorkspaceLogo url={user.organization.logoUrl} />
-          <div className="min-w-0 leading-tight">
-            <div className="truncate text-sm font-semibold">{user.organization.name}</div>
-            <div className="text-xs text-slate-500">Workspace</div>
-          </div>
-        </div>
-      )}
       <div className="px-5 pb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">Menu</div>
       <div className="flex-1 space-y-1 px-3">
         {items.map(({ href, label, icon: Icon }) => {
