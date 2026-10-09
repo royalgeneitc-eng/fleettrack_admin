@@ -2,14 +2,11 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { SESSION_COOKIE, verifySession } from '@/lib/session';
 
 const PUBLIC_PAGES = ['/login', '/signup'];
-// Readable by anyone, signed in or not (Google Play requires public URLs).
-const OPEN_PAGES = ['/privacy', '/account-deletion'];
 
 // Page-level gate only: API routes authenticate themselves (cookie or
 // Bearer token) and enforce tenant + role checks against the database.
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (OPEN_PAGES.includes(pathname)) return NextResponse.next();
   const token = req.cookies.get(SESSION_COOKIE)?.value;
   const signedIn = token ? Boolean(await verifySession(token)) : false;
   const isPublic = PUBLIC_PAGES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
